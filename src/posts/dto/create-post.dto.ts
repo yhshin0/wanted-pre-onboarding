@@ -1,5 +1,4 @@
 export class CreatePostDto {
-  readonly title: String;
-  readonly content: String;
-  readonly userId: String;
+  readonly title: string;
+  readonly content: string;
 }

@@ -1,18 +1,24 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Post {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  title: String;
+  @Column({ nullable: false })
+  title: string;
 
-  @Column()
-  content: String;
+  @Column({ nullable: false })
+  content: string;
 
-  @Column()
-  userId: String;
+  @Column({ nullable: false })
+  userId: string;
 
   @CreateDateColumn()
   createdDate: Date;
