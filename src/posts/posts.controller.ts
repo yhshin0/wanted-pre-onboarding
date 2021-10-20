@@ -13,7 +13,7 @@ import {
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/auth-guard/jwt-auth.guard';
 
 @Controller('posts')
 export class PostsController {
