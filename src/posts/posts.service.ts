@@ -97,7 +97,9 @@ export class PostsService {
   private checkPostWriter(post: Post, userId: string) {
     if (post.userId !== userId) {
       throw new HttpException(
-        { message: `This post was not written by user(${userId})` },
+        {
+          message: `This post was not written by login user`,
+        },
         HttpStatus.FORBIDDEN,
       );
     }

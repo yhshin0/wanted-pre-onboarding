@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -13,6 +13,16 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    this.checkEmptyIdAndPassword(createUserDto);
+
+    const existedUser = await this.findOne(createUserDto.userId);
+    if (existedUser) {
+      throw new HttpException(
+        { message: 'userId already exists' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const user = new User();
     user.userId = createUserDto.userId;
     user.password = await bcrypt.hash(createUserDto.password, this.saltRounds);
@@ -32,5 +42,14 @@ export class UsersService {
 
   async compareHash(user: User, password: string) {
     return await bcrypt.compare(password, user.password);
+  }
+
+  private checkEmptyIdAndPassword(createUserDto: CreateUserDto) {
+    if (!createUserDto.userId || !createUserDto.password) {
+      throw new HttpException(
+        { message: 'Invalid userId/password' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }
