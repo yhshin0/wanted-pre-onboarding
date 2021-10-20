@@ -23,11 +23,7 @@ export class PostsService {
   async findAll(limit: number, offset: number) {
     limit = isNaN(limit) ? 10 : limit;
     offset = isNaN(offset) ? 0 : offset;
-    const data = await this.postRepository
-      .createQueryBuilder()
-      .skip(offset)
-      .take(limit)
-      .getMany();
+    const data = await this.postRepository.find({ skip: offset, take: limit });
     const res = { count: data.length, data: data };
     return res;
   }
