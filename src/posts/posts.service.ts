@@ -20,8 +20,16 @@ export class PostsService {
     return await this.postRepository.save(post);
   }
 
-  async findAll(): Promise<Post[]> {
-    return await this.postRepository.find();
+  async findAll(limit: number, offset: number) {
+    limit = isNaN(limit) ? 10 : limit;
+    offset = isNaN(offset) ? 0 : offset;
+    const data = await this.postRepository
+      .createQueryBuilder()
+      .skip(offset)
+      .take(limit)
+      .getMany();
+    const res = { count: data.length, data: data };
+    return res;
   }
 
   async findOne(id: number): Promise<Post> {
